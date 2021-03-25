@@ -1,5 +1,6 @@
 package com.springbook.biz.board;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.context.support.AbstractApplicationContext;
@@ -9,7 +10,7 @@ import com.springbook.biz.user.UserService;
 import com.springbook.biz.user.UserVO;
 
 public class BoardServiceClient3 {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 	//1. Spring 컨테이너 구동
 		AbstractApplicationContext container = new GenericXmlApplicationContext("applicationContext.xml");
 		
@@ -19,16 +20,18 @@ public class BoardServiceClient3 {
 	//3. 회원 등록 기능 테스트
 		//3-1. 회원 등록
 		 UserVO vo = new UserVO();
-		vo.setId("im");
+		vo.setId("hong14");
 		vo.setPassword("1234");
-		vo.setName("임길동");
+		vo.setName("홍14길동");
 		vo.setRole("admin");
 		
 		userService.insertUser(vo);
 		
+		
 		//3-2. 회원 조회
+		vo.setId("hong");
 		UserVO userVo  = userService.getUser(vo);
-		 System.out.println("회원조회 : "+userVo);
+		System.out.println("회원조회 : "+userVo);
 		 
 		 
 	

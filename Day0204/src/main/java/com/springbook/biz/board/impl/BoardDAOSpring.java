@@ -31,6 +31,7 @@ public class BoardDAOSpring extends JdbcDaoSupport {
 		private final String BOARD_UPDATE_CNT = "update board set cnt=cnt+1 where seq=?";
 
 		
+		//JdbcTemplate객체 생성시 applicationContext.xml에 bean으로 생성된 dataSource 정보 이용
 		@Autowired
 		public void setSuperDataSource(DataSource dataSource) {
 			super.setDataSource(dataSource);
@@ -44,68 +45,42 @@ public class BoardDAOSpring extends JdbcDaoSupport {
 	   getJdbcTemplate().update(BOARD_INSERT,vo.getTitle(),vo.getWriter(),vo.getContent());		
 	}
 		
-	/*
-	 * //글 수정 public void updateBoard(BoardVO vo) {
-	 * System.out.println("===> JDBC로 updateBoard() 기능 처리"); try { conn =
-	 * JDBCUtil.getConnection(); stmt = conn.prepareStatement(BOARD_UPDATE);
-	 * stmt.setString(1, vo.getTitle()); stmt.setString(2, vo.getContent());
-	 * stmt.setInt(3, vo.getSeq());
-	 * 
-	 * stmt.executeUpdate();
-	 * 
-	 * }catch(Exception e) { e.printStackTrace(); }finally { JDBCUtil.close( stmt,
-	 * conn); } }
-	 * 
-	 * //글 조회수 증가 public void updateBoardCnt(BoardVO vo) {
-	 * System.out.println("===> JDBC로 updateBoardCnt() 기능 처리"); try { conn =
-	 * JDBCUtil.getConnection(); stmt = conn.prepareStatement(BOARD_UPDATE_CNT);
-	 * stmt.setInt(1, vo.getSeq());
-	 * 
-	 * stmt.executeUpdate();
-	 * 
-	 * }catch(Exception e) { e.printStackTrace(); }finally { JDBCUtil.close( stmt,
-	 * conn); } }
-	 * 
-	 * //글 삭제 public void deleteBoard(BoardVO vo) {
-	 * System.out.println("===> JDBC로 deleteBoard() 기능 처리"); try { conn =
-	 * JDBCUtil.getConnection(); stmt = conn.prepareStatement(BOARD_DELETE);
-	 * stmt.setInt(1, vo.getSeq());
-	 * 
-	 * stmt.executeUpdate();
-	 * 
-	 * }catch(Exception e) { e.printStackTrace(); }finally { JDBCUtil.close( stmt,
-	 * conn); } }
-	 * 
-	 * //글 상세 조회 public BoardVO getBoard(BoardVO vo) { BoardVO board=null;
-	 * System.out.println("===> JDBC로 getBoard() 기능 처리"); try { conn =
-	 * JDBCUtil.getConnection(); stmt = conn.prepareStatement(BOARD_GET);
-	 * stmt.setInt(1, vo.getSeq());
-	 * 
-	 * rs=stmt.executeQuery();
-	 * 
-	 * if(rs.next()) { board = new BoardVO(); board.setSeq(rs.getInt("seq"));
-	 * board.setTitle(rs.getString("title"));
-	 * board.setWriter(rs.getString("writer"));
-	 * board.setContent(rs.getString("content"));
-	 * board.setRegDate(rs.getDate("regdate")); board.setCnt(rs.getInt("cnt")); }
-	 * }catch(Exception e) { e.printStackTrace(); }finally { JDBCUtil.close( stmt,
-	 * conn); } return board; }
-	 * 
-	 * 
-	 * //글 목록 조회 public List<BoardVO> getBoardList(BoardVO vo) { List<BoardVO>
-	 * boardList = new ArrayList<BoardVO>();
-	 * System.out.println("===> JDBC로 getBoardList() 기능 처리"); try { conn =
-	 * JDBCUtil.getConnection(); stmt = conn.prepareStatement(BOARD_LIST);
-	 * 
-	 * rs=stmt.executeQuery();
-	 * 
-	 * if(rs.next()) { BoardVO board = new BoardVO();
-	 * board.setSeq(rs.getInt("seq")); board.setTitle(rs.getString("title"));
-	 * board.setWriter(rs.getString("writer"));
-	 * board.setContent(rs.getString("content"));
-	 * board.setRegDate(rs.getDate("regdate")); board.setCnt(rs.getInt("cnt"));
-	 * 
-	 * boardList.add(board); } }catch(Exception e) { e.printStackTrace(); }finally {
-	 * JDBCUtil.close( stmt, conn); } return boardList; }
-	 */	
+	
+	  //글 수정 
+	public void updateBoard(BoardVO vo) {
+		try {
+	  System.out.println("===> Spring JDBC로 updateBoard() 기능 처리");
+	  getJdbcTemplate().update(BOARD_UPDATE, vo.getTitle(),vo.getContent(),vo.getSeq());
+		}catch(Exception e) {
+			System.out.println("에러: "+e.getMessage());
+		}
+	  }
+	 
+	 
+	 //글 조회수 증가 
+	  public void updateBoardCnt(BoardVO vo) {
+	  System.out.println("===> Spring JDBC로 updateBoardCnt() 기능 처리"); 
+	   getJdbcTemplate().update(BOARD_UPDATE_CNT, vo.getSeq());
+	  }
+	  
+	//글 목록 조회 
+	  public List<BoardVO> getBoardList(BoardVO vo) { 
+	  System.out.println("===> Spring JDBC로 getBoardList() 기능 처리");
+	   return getJdbcTemplate().query(BOARD_LIST,new BoardRowMapper());
+	  }
+	  
+	  //글 상세 조회 
+	  public BoardVO getBoard(BoardVO vo) { 
+		  System.out.println("===> Spring JDBC로 getBoard() 기능 처리");
+		  Object[] args = {vo.getSeq()};
+		  //queryForObject(쿼리문, 바인딩변수배열, RowMapper);
+		  return getJdbcTemplate().queryForObject(BOARD_GET, args,new BoardRowMapper());
+	  }
+
+	  //글 삭제 
+	  public void deleteBoard(BoardVO vo) {
+	  System.out.println("===> Spring JDBC로 deleteBoard() 기능 처리"); 
+	    getJdbcTemplate().update(BOARD_DELETE, vo.getSeq());
+	  }
+
 }

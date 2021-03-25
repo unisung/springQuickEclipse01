@@ -1,6 +1,9 @@
 package com.springbook.biz.user.impl;
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import com.springbook.biz.user.UserService;
 import com.springbook.biz.user.UserVO;
@@ -8,18 +11,16 @@ import com.springbook.biz.user.UserVO;
 @Service("userService")
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserDAO userDAO;
+    UserDAOSpring userDAO;
     
 	@Override
-	public void insertUser(UserVO vo)  {
-		UserVO user=getUser(vo);
-		//if(user.getId().equals(vo.getId()))
-		//	  throw new IllegalArgumentException("동일한 아이디가 존재합니다.");
-	    userDAO.insertUser(vo);
+	public void insertUser(UserVO vo) throws SQLException  {
+		if(getUserCnt(vo)==0)
+	        userDAO.insertUser(vo);
 	}
 
 	@Override
-	public UserVO getUser(UserVO vo) {
+	public UserVO getUser(UserVO vo) throws SQLException {
 	  return userDAO.getUser(vo);
 	}
 
@@ -33,6 +34,11 @@ public class UserServiceImpl implements UserService {
 	public void updateUser(UserVO vo) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public int getUserCnt(UserVO vo) throws SQLException {
+		return userDAO.getUserCnt(vo);
 	}
 
 }

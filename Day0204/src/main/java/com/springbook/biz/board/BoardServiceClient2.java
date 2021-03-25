@@ -21,17 +21,37 @@ public class BoardServiceClient2 {
 		 vo.setWriter("홍길동");
 		 vo.setContent("임시 내용 ...................");
 		 boardService.insertBoard(vo);
+		 
+		//3-1-2. 글 수정
+		 vo.setSeq(1);
+		 vo.setTitle("임시 제목-수정");
+		 vo.setWriter("홍길동");
+		 vo.setContent("임시 내용-수정 ...................");
+		 boardService.updateBoard(vo);
+		 
 		
 		//3-2. 글 목록 검색
-		// List<BoardVO> boardList = boardService.getBoardList(vo);
-		
-		/*
-		 * for(BoardVO board:boardList) { System.out.println("-----> " +
-		 * board.toString()); }
-		 */
-		 
-		 
-	
+		 List<BoardVO> boardList = boardService.getBoardList(vo);
+		  for(BoardVO board:boardList) { 
+			   System.out.println("-----> " + board.toString()); 
+			}
+		  
+		//3-2-2. 글 상세 조회
+		  vo.setSeq(1);
+		  System.out.println(vo.getSeq()+"번 내용:"+boardService.getBoard(vo));
+		  
+		  
+		//3-2-2-1. 글 삭제 
+		  vo.setSeq(9);
+		  boardService.deleteBoard(vo);
+		  
+		 //3-2-2-2. 수정된 내용 보기
+		  boardList = boardService.getBoardList(vo);
+		  for(BoardVO board:boardList) { 
+			   System.out.println("-----> " + board.toString()); 
+			} 
+		  
+
  	//4. spring 컨테이너 종료	
         container.close();
 	}

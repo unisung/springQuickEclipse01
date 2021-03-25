@@ -14,6 +14,7 @@ public class BoadServiceImpl implements BoardService {
 	@Autowired
 	private BoardDAOSpring boardDAO;
 
+	//입력
 	@Override
 	public void insertBoard(BoardVO vo) {
 		// TODO Auto-generated method stub
@@ -23,44 +24,34 @@ public class BoadServiceImpl implements BoardService {
        boardDAO.insertBoard(vo);
 	}
 
+	//수정
 	@Override
 	public void updateBoard(BoardVO vo) {
 		// TODO Auto-generated method stub
-		
+		 boardDAO.updateBoard(vo); 
 	}
 
+	//삭제
 	@Override
 	public void deleteBoard(BoardVO vo) {
 		// TODO Auto-generated method stub
-		
+		boardDAO.deleteBoard(vo);
 	}
-
+    
+	//상세 조회
 	@Override
 	public BoardVO getBoard(BoardVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		boardDAO.updateBoardCnt(vo); //조회 수 증가
+		return boardDAO.getBoard(vo);
 	}
 
+	//글 목록 조회 
 	@Override
 	public List<BoardVO> getBoardList(BoardVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return boardDAO.getBoardList(vo);
 	}
-
-	/*
-	 * @Override public void updateBoard(BoardVO vo) { // TODO Auto-generated method
-	 * stub boardDAO.updateBoard(vo); }
-	 * 
-	 * @Override public void deleteBoard(BoardVO vo) { // TODO Auto-generated method
-	 * stub boardDAO.deleteBoard(vo); }
-	 * 
-	 * @Override public BoardVO getBoard(BoardVO vo) { // TODO Auto-generated method
-	 * stub boardDAO.updateBoardCnt(vo); return boardDAO.getBoard(vo); }
-	 * 
-	 * @Override public List<BoardVO> getBoardList(BoardVO vo) { // TODO
-	 * Auto-generated method stub return boardDAO.getBoardList(vo); }
-	 */
-	
 	
 
 }
