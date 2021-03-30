@@ -42,14 +42,12 @@ public class LoginController /* implements Controller */ {
 	}else
 			return new ModelAndView("login.jsp");
 	}
-
 	/* UserVO, BoardVO 객체명이 아닌 다른 이름으로 jsp로 전달하고 싶을 때!!!!,
 	 *  @ModelAttribute("user"), @ModelAttribute("board")로 이름 재 지정해서 
 	 *  전달하게됨.
 	 *  jsp에서는 ${userVO.속성명}   -> ${user.속성명},
 	 *               ${boardVO.속성명} -> ${board.속성명} 으로 사용
 	 * */
-	
 	//Controller에서 jsp로 보낼때 @ModelAttribute로 설정해서 전달 가능
 	//@ModelAttribute만 선언하고 값 설정, ModelAndView나 Model 선언 안 함.
 	@RequestMapping(value="/login.do",method = RequestMethod.GET)

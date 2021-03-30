@@ -20,7 +20,7 @@ public class DeleteBoardController /* implements Controller */ {
     	System.out.println("삭제 글번호: "+ vo.getSeq());
     	System.out.println("vo: "+vo);
     	boardDAO.deleteBoard(vo);
-    	return "getBoardList.do";
+    	return "redirect:getBoardList.do";
     }
     
 	/*

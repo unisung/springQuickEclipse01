@@ -18,7 +18,7 @@ public class UpdateBoardController /* implements Controller */ {
    @RequestMapping(value="/updateBoard.do", method=RequestMethod.POST)
    public String updateBoard(BoardVO vo, BoardDAO boardDAO) {
 	   boardDAO.updateBoard(vo);
-	   return "getBoardList.do";
+	   return "redirect:getBoardList.do";
    }
 	
 	

@@ -18,7 +18,7 @@ public class InsertBoardController/* implements Controller */ {
         public String insertBoard(BoardVO vo) {
     	  BoardDAO boardDAO = new BoardDAO(); 
     	  boardDAO.insertBoard(vo);
-    	  return "getBoardList.do";
+    	  return "redirect:getBoardList.do";
       }
 	
 	/*
