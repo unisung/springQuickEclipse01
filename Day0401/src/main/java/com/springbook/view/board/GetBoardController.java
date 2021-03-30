@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 /*import org.springframework.web.servlet.mvc.Controller;*/
 
@@ -14,6 +15,7 @@ import com.springbook.biz.board.impl.BoardDAO;
 /*import com.springbook.view.controller.Controller;*/
 
 @Controller
+@SessionAttributes("board")
 public class GetBoardController /* implements Controller */ {
      @RequestMapping("/getBoard.do")
      public String getBoard(BoardVO vo, Model model, BoardDAO boardDAO) {

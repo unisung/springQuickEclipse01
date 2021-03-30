@@ -37,7 +37,7 @@ public class LoginController /* implements Controller */ {
 		System.out.println("로그인 처리....");
 		UserVO user = dao.getUser(vo);
 	if(user!=null) {
-		session.setAttribute("user", user);
+		//session.setAttribute("user", user);
 			return new ModelAndView("redirect:getBoardList.do");// viewResolver 미 사용처리 redirect:
 	}else
 			return new ModelAndView("login.jsp");

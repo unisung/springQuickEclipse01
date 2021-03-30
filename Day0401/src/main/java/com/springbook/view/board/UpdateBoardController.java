@@ -3,9 +3,12 @@ package com.springbook.view.board;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 /*import org.springframework.web.servlet.mvc.Controller;*/
 
@@ -14,12 +17,16 @@ import com.springbook.biz.board.impl.BoardDAO;
 /*import com.springbook.view.controller.Controller;*/
 
 @Controller
+@SessionAttributes("board")
 public class UpdateBoardController /* implements Controller */ {
    @RequestMapping(value="/updateBoard.do", method=RequestMethod.POST)
-   public String updateBoard(BoardVO vo, BoardDAO boardDAO) {
+   public String updateBoard(@ModelAttribute("board") BoardVO vo, BoardDAO boardDAO) {
+	   System.out.println("board: "+vo);
 	   boardDAO.updateBoard(vo);
 	   return "redirect:getBoardList.do";
    }
+
+
 	
 	
 	/*
