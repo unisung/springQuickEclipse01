@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 import com.springbook.biz.board.BoardService;
 import com.springbook.biz.board.BoardVO;
 
-@Service("boardService")
+//@Service("boardService")
 public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardDAOSpring boardDAO;
 
 	public void insertBoard(BoardVO vo) {
 //		if (vo.getSeq() == 0) {
-//			throw new IllegalArgumentException("0¹ø ±ÛÀº µî·ÏÇÒ ¼ö ¾ø½À´Ï´Ù.");
+//			throw new IllegalArgumentException("0ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 //		}
-		boardDAO.insertBoard(vo); // 100¹ø ±Û µî·Ï ¼º°ø
-		boardDAO.insertBoard(vo); // Exception ¹ß»ý
+		boardDAO.insertBoard(vo); // 100ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		boardDAO.insertBoard(vo); // Exception ï¿½ß»ï¿½
 	}
 
 	public void updateBoard(BoardVO vo) {
