@@ -22,6 +22,10 @@ public class SqlSessionFactoryBean {
 		   }
   }
 
+  /* openSession()는 default가 manual commit,
+   * AutoCommit으로 바꿀려면
+   * openSession(true)로 변경처리 
+   * */
 public static SqlSession getSqlSessionInstance() {
 	return sqlSessionInstance.openSession();//openSession(true);
 }
