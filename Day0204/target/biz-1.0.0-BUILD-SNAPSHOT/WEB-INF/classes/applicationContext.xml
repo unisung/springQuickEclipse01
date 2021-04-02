@@ -12,7 +12,10 @@
  <!-- aop annotation 설정 --> 
 <aop:aspectj-autoproxy></aop:aspectj-autoproxy>  
 
-<!-- DataSource 설정 -->
+<!-- DataSource 설정
+    Class.forName(드라이브)
+	Connection con=DriverManger.getConnection(url,username,password)
+ -->
  <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
                  destroy-method="close">
  <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>

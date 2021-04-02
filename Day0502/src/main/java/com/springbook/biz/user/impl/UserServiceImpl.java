@@ -10,8 +10,6 @@ import com.springbook.biz.user.UserVO;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
-    //@Autowired
-    //UserDAOSpring userDAO;
 	@Autowired
 	UserDAOMybatis userDAO;
     

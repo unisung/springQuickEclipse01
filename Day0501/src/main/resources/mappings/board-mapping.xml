@@ -26,6 +26,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     order by seq desc
  </select>
  
+ <!--  검색 조건 title -->
+<select id="getBoardSearchListT" resultType="boardResult">
+	select * from board
+    where title like '%'||#{searchKeyword}||'%'
+    order by seq desc
+</select> 
+
+<!--  검색 조건 content -->
+<select id="getBoardSearchListC" resultMap="boardResult">
+	select * from board
+    where content like '%'||#{searchKeyword}||'%'
+    order by seq desc
+</select> 
+
  <!-- 상세 조회 -->
 <select id="getBoard" resultType="board">
 	select * from board where seq=#{seq}

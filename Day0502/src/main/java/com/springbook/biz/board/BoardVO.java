@@ -94,8 +94,10 @@ public class BoardVO {
 	public String toString() {
 		return "BoardVO [seq=" + seq + ", title=" + title + ", writer=" + writer + ", content=" + content + ", regDate="
 				+ regDate + ", cnt=" + cnt + ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
-				+ "]";
+				+ ", fileName=" + fileName + "]";
 	}
+	
+	
 	
 	
      

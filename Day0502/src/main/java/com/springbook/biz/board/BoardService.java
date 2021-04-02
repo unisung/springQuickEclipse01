@@ -21,5 +21,11 @@ public interface BoardService {
   
 //글 목록 검색 조회
   List<BoardVO> getBoardSearchList(BoardVO vo);
+
+	/*
+	 * Object getBoardSearchListT(BoardVO vo);
+	 * 
+	 * Object getBoardSearchListC(BoardVO vo);
+	 */
   
 }

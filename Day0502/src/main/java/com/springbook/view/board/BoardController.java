@@ -2,6 +2,7 @@ package com.springbook.view.board;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,10 +91,10 @@ public class BoardController {
 		
 		 @RequestMapping(value="/getBoardList.do", method=RequestMethod.POST )
 		 public String getBoardSearchList(BoardVO vo, Model model) {
-			 
+	
 			if(vo.getSearchCondition()==null) vo.setSearchCondition("TITLE");
 			if(vo.getSearchKeyword()==null) vo.setSearchKeyword("");
-     
+
 			model.addAttribute("boardList",boardService.getBoardSearchList(vo)); 
 			 return "getBoardList.jsp";//View이름 리턴
 		 }
@@ -105,8 +106,10 @@ public class BoardController {
 			 //클라이언트로 부터 전송된 파일이 있으면
 			 if(!uploadFile.isEmpty()) {
 				 String fileName = uploadFile.getOriginalFilename();
+				 vo.setFileName(fileName);
 				 uploadFile.transferTo(new File("c:/upload/"+fileName));
 			 }
+			 System.out.println("입력내용:-----> " +vo);
 			 boardService.insertBoard(vo);
 	    	  return "redirect:getBoardList.do";
 	      }
@@ -124,6 +127,7 @@ public class BoardController {
 				 //클라이언트로 부터 전송된 파일이 있으면
 				 if(!uploadFile.isEmpty()) {
 					 String fileName = uploadFile.getOriginalFilename();
+					 vo.setFileName(fileName);
 					 uploadFile.transferTo(new File("c:/upload/"+fileName));
 				 }
 		    	

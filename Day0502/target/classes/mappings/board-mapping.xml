@@ -15,8 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  
  <!-- 입력 -->
  <insert id="insertBoard">
-   insert into board(seq, title, writer, content) 
-    values((select nvl(max(seq), 0)+1 from board),#{title},#{writer},#{content})
+   insert into board(seq, title, writer, content,filename) 
+    values((select nvl(max(seq), 0)+1 from board),#{title},#{writer},#{content},#{fileName})
  </insert>
 
 <!--  리스트 조회  -->
@@ -25,6 +25,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     where title like '%'||#{searchKeyword}||'%'
     order by seq desc
  </select>
+
+ <!--  검색 조건 title -->
+<select id="getBoardSearchListT" resultMap="boardResult">
+	select * from board
+    where title like '%'||#{searchKeyword}||'%'
+    order by seq desc
+</select> 
+
+<!--  검색 조건 content -->
+<select id="getBoardSearchListC" resultMap="boardResult">
+	select * from board
+    where content like '%'||#{searchKeyword}||'%'
+    order by seq desc
+</select> 
  
  <!-- 상세 조회 -->
 <select id="getBoard" resultType="board">
@@ -33,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!--  수정 -->
 <update id="updateBoard">
-	update board set title=#{title}, content=#{content} where seq=#{seq}
+	update board set title=#{title}, content=#{content}, filename=#{fileName} where seq=#{seq}
 </update>
 
 <!--  삭제 -->
@@ -42,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </delete>
 
 <!-- 조회수 증가 -->
-<update id="updateCount">
+<update id="updateBoardCount">
    update board set cnt=cnt+1 where seq=#{seq}
 </update>
 
