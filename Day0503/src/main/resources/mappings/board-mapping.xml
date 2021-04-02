@@ -39,6 +39,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     where content like '%'||#{searchKeyword}||'%'
     order by seq desc
 </select> 
+
+<!--  검색 조건 dynamic sql 적용  -->
+<select id="getBoardSearchList" resultMap="boardResult">
+ select * from board
+    where 1=1
+      <if test="searchCondition =='TITLE'">
+       and title like '%'||#{searchKeyword}||'%'
+      </if>
+      <if test="searchCondition =='CONTENT'">
+       and content like '%'||#{searchKeyword}||'%'
+      </if>
+    order by seq desc
+</select>
  
  <!-- 상세 조회 -->
 <select id="getBoard" resultType="board">

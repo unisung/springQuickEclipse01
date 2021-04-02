@@ -51,7 +51,7 @@ public class BoadServiceImpl implements BoardService {
 	   return boardDAO.getBoardList(vo);
 	}
 
-	@Override
+/*	@Override
 	public List<BoardVO> getBoardSearchList(BoardVO vo) {
 		if(vo.getSearchCondition().equals("TITLE")) 
 			return boardDAO.getBoardSearchListT(vo);
@@ -60,7 +60,10 @@ public class BoadServiceImpl implements BoardService {
 		else
 			return null;
 	}
+*/
+	public List<BoardVO> getBoardSearchList(BoardVO vo) {
+			return boardDAO.getBoardSearchList(vo);
 
-	
+	}
 
 }

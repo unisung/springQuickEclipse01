@@ -67,5 +67,11 @@ public class BoardDAOMybatis/* extends SqlSessionDaoSupport */{
 		mybatis.update("BoardDAO.updateBoardCount", vo);
 	}
 
+	/* 검색 처리 */
+	public List<BoardVO> getBoardSearchList(BoardVO vo) {
+		System.out.println("===> Mybatis로 getBoardSearchList() 기능 처리");
+		return mybatis.selectList("BoardDAO.getBoardSearchList", vo);
+	}
+
   
 }
