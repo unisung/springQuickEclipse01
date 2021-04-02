@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- contextLoaderListener -->
+ <!-- needed for ContextLoaderListener -->
+ <!--  DispatcherServlet이 생성전에 먼저 Context설정정보의 객체를 생성하여 메모리에 로드. -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+
+	<!-- Bootstraps the root web application context before servlet initialization -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+ 
+ 
+ <filter>
+ 	<filter-name>characterEncoding</filter-name>
+ 	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+ 	<init-param>
+ 		<param-name>encoding</param-name>
+ 		<param-value>EUC-KR</param-value>
+ 	</init-param>
+ </filter>
+ 
+ <filter-mapping>
+ 		<filter-name>characterEncoding</filter-name>
+ 		<url-pattern>*.do</url-pattern>
+ </filter-mapping>
+ 
+ <!--  서블릿 등록, springframework에서 제공하는 DispatcherServlet등록 -->
+  <!-- The front controller of this Spring Web application, responsible for handling all application requests -->
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/presentation-layer.xml</param-value>
+		</init-param>
+		<!--  웹 컨테이너 기동시 DispatcherServlet 로드하도록 설정,(0,-1이면 로동 안됨)
+		         -->
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- Map all requests to the DispatcherServlet for handling -->
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+</web-app>
