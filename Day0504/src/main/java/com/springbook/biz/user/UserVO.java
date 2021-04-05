@@ -1,6 +1,15 @@
 package com.springbook.biz.user;
 
-public class UserVO {
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "users")
+public class UserVO implements Serializable{
+	@Id
 	private String id;
 	private String password;
 	private String name;

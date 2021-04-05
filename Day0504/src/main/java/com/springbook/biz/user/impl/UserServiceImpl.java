@@ -11,7 +11,8 @@ import com.springbook.biz.user.UserVO;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 	@Autowired
-	UserDAOMybatis userDAO;
+	//UserDAOMybatis userDAO;
+	UserDAOJPA userDAO;
     
 	@Override
 	public void insertUser(UserVO vo) throws SQLException  {
@@ -26,14 +27,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void deleteUser(UserVO vo) {
-		// TODO Auto-generated method stub
-
+		userDAO.deleteUser(vo);
 	}
 
 	@Override
 	public void updateUser(UserVO vo) {
-		// TODO Auto-generated method stub
-
+		userDAO.updateUser(vo);
 	}
 
 	@Override
