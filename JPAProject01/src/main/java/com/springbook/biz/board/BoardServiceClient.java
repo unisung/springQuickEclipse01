@@ -33,8 +33,37 @@ public class BoardServiceClient {
 			
 			for(Board b:boardList) { System.out.println("-----> " +b);}
 			
-			//Transaction 처리
-			tx.commit();
+			//한 건 조회
+			Board b=new Board();
+			b.setSeq(102);
+			//한 건 출력 find(클래스타입, primary key값);
+			b = em.find(Board.class, b.getSeq());
+			
+			System.out.println("b--->"+b);
+			
+			//수정
+			b.setTitle("JPA 수정 제목");
+			b.setContent("JPA 글 수정 잘 됩니다.....");
+			//merge(수정된 vo); 
+		    em.merge(b)	;
+		    
+		    
+			  //Transaction 처리
+		//		tx.commit(); 
+				
+			
+		    //삭제 - update(merge)와 delete(remove)시 
+		    //java VO를 다르게 선언하여 처리
+		    //준 영속 상태에서, 영속상태의 정보를 가지고 있음.
+			Board vo = new Board();
+			vo.setSeq(103); 
+			vo=em.find(Board.class, vo.getSeq());
+		    
+		    //remove(삭제할 vo);
+		    em.remove(vo);
+		    
+		  //Transaction 처리
+			tx.commit(); 
 			
 		}catch(Exception e) {
 			e.printStackTrace();

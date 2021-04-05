@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="Day0504">
+	 <class>com.springbook.biz.board.BoardVO</class>
+	<properties>
+		  <!-- 필수 속성 -->
+		  <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
+		  <!-- 스키마 지정- 다른 스키마에 동일 테이블명 존재시 오류 발생 조치 -->
+		  <property name="hibernate.default_schema" value="sa"/>
+		  
+		  <!-- 옵션 속성 -->
+		  <property name="hibernate.show_sql" value="true"/>
+		  <property name="hibernate.format_sql" value="true"/>
+		  <property name="hibernate.use_sql_comments" value="true"/>
+		  <property name="hibernate.id.new_generator_mappings" value="true"/>
+		  <property name="hibernate.hbm2ddl.auto" value="update"/>
+		  
+		</properties>
+	</persistence-unit>
+</persistence>
