@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
     
 	@Override
 	public void insertUser(UserVO vo) throws SQLException  {
-		if(getUserCnt(vo)==0)
+		//if(getUserCnt(vo)==0)
 	        userDAO.insertUser(vo);
 	}
 

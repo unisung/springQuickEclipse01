@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springbook.biz.user.UserService;
@@ -49,4 +50,25 @@ public class UserController {
 		   session.invalidate();
 		   return "login.jsp";
 	   }
+	 
+	 @RequestMapping("insertMember.do")
+	 public String insertMemberForm() {
+		 return "memberForm.jsp";
+	 }
+	 
+	 @RequestMapping(value="/insertUser.do",method=RequestMethod.POST)
+	   public String insertMember(UserVO vo) throws SQLException{
+		  System.out.println("회원 가입 처리");
+		  userService.insertUser(vo);
+		  return "redirect:login.do";
+	 }
+	 
+	 @RequestMapping(value="/idchek.do", method=RequestMethod.GET)
+	 @ResponseBody
+	 public int idCheck(UserVO vo) throws SQLException {
+		 System.out.println("id 확인");
+		 return userService.getUserCnt(vo);
+	 }
 }
+
+

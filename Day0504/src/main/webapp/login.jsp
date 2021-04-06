@@ -29,7 +29,9 @@ Login Page-----
 				</tr>
 				<tr>
 					<td colspan="2" align="center"><input type="submit"
-						value="<spring:message code="message.user.login.loginBtn"/>" /></td>
+						value="<spring:message code="message.user.login.loginBtn"/>" />
+					<button onclick="return goMember();">회원가입</button>	
+						</td>
 				</tr>
 			</table>
 		</form>
@@ -37,3 +39,10 @@ Login Page-----
 	</center>
 </body>
 </html>
+<script>
+function goMember(){
+	alert("goMember");
+	location.href="insertMember.do";
+	return false;
+}
+</script>
