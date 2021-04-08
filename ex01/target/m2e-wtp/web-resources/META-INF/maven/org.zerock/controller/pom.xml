@@ -147,6 +147,13 @@
     <version>${org.springframework-version}</version>
 </dependency>
 	
+<!-- JSON형태의 데이타 출력 라이브러리  -->	
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.4</version>
+</dependency>
 	
 		     
 	</dependencies>
