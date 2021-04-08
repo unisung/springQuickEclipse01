@@ -22,6 +22,8 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="org.zerock.controller" />
+	<!--  exception 패키지경로의 CommonExceptionAdvice component-scan 적용 -->
+	<context:component-scan base-package="org.zerock.exception"/>
 	
 	<!--  파일 업로드 설정 -->
 	<beans:bean id="multipartResolver"
