@@ -1,7 +1,5 @@
 package org.zerock.controller;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.queryParam;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.zerock.config.RootConfig;
+import org.zerock.config.ServletConfig;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -23,8 +23,8 @@ import lombok.extern.log4j.Log4j;
 //Test for Controller
 @WebAppConfiguration
 
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml",
-	                              "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
+@ContextConfiguration(classes={RootConfig.class, 
+		                                      ServletConfig.class})
 @Log4j
 public class BoardControllerTests {
 	
