@@ -22,13 +22,28 @@ public class BoardController {
 	private BoardService service;
 	
 	/* 게시글 리스트 */
-	@GetMapping("/list")//spring 4.3이후 getMapping
-	public void list(Model model) {
-		
-		log.info("list");
-		model.addAttribute("list", service.getList());
-	}
 	
+	  @GetMapping("/list")//spring 4.3이후 getMapping 
+	  public void list(Model model) {
+	  
+	   log.info("list"); 
+	   model.addAttribute("list", service.getList()); 
+	  }
+	 
+	
+	/*
+	 * @GetMapping("/list")//spring 4.3이후 getMapping public String list(Model model)
+	 * {
+	 * 
+	 * log.info("list"); model.addAttribute("list", service.getList()); return
+	 * "list"; }
+	 */
+	
+	  @GetMapping("/register") // /board/register
+		public void register() {
+		}
+	  
+	  
 	/* 게시글 등록 */
 	@PostMapping("/register") // /board/register
 	public String register(BoardVO board, RedirectAttributes rttr) {
