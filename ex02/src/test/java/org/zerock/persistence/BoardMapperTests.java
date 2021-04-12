@@ -1,5 +1,6 @@
 package org.zerock.persistence;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.junit.Ignore;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 import org.zerock.mapper.BoardMapper;
 
 import lombok.Setter;
@@ -22,12 +24,14 @@ public class BoardMapperTests {
 	@Setter(onMethod_=@Autowired)
 	private BoardMapper boardMapper;
 
+	@Ignore
 	@Test
 	public void testGetTime() {
 		log.info(boardMapper.getClass().getName());//클래스명 출력
 		boardMapper.getList().forEach(board->log.info(board));//클래스명 출력
 	}
 	
+	@Ignore
 	@Test
 	public void insertBoard() {
 		BoardVO board = new BoardVO();
@@ -40,7 +44,7 @@ public class BoardMapperTests {
 		log.info(board);
 	}
 	
-	
+	@Ignore
 	@Test
 	public void insertSelectKeyBoard() {
 		BoardVO board = new BoardVO();
@@ -64,6 +68,7 @@ public class BoardMapperTests {
 		boardMapper.update(board);
 	}
 	
+	@Ignore
 	@Test
 	public void testRead() {
 		BoardVO board = boardMapper.read(5L);
@@ -78,6 +83,18 @@ public class BoardMapperTests {
 		boardMapper.delete(1L);
 	}
 	
+	
+	@Test
+	public void testPaging() {
+		Criteria cri = new Criteria();
+		//10개씩 3페이지
+		cri.setPageNum(3);//3페이지
+		cri.setAmount(10);//페이지당 10개 글
+		
+		List<BoardVO> list = boardMapper.getListWithPaging(cri);
+		
+		list.forEach(board-> log.info(board.getBno()));
+	}
 	
 	
 }

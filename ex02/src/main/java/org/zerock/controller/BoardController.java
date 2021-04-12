@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
+import org.zerock.domain.PageDTO;
 import org.zerock.service.BoardService;
 
 import lombok.AllArgsConstructor;
@@ -24,10 +26,11 @@ public class BoardController {
 	/* 게시글 리스트 */
 	
 	  @GetMapping("/list")//spring 4.3이후 getMapping 
-	  public void list(Model model) {
+	  public void list(Criteria cri, Model model) {
 	  
-	   log.info("list"); 
-	   model.addAttribute("list", service.getList()); 
+	   log.info("list: " + cri); 
+	   model.addAttribute("list", service.getList(cri)); 
+	   model.addAttribute("pageMaker",new PageDTO(cri, 123));
 	  }
 	 
 	
@@ -51,14 +54,15 @@ public class BoardController {
 		log.info("register: "+board);
 		
 		service.register(board);
+		//BoardServiceImple에서 insertSelectKey()메소드로 글등록 후 글 번호를 받을수 있음.
 		
 		rttr.addFlashAttribute("result", board.getBno()); //게시글 번호를 result값으로 전달
 		
 		return "redirect:/board/list";//게시글 등록 후 redirect로 게시글 목록으로 이동
 	}
 	
-	/* 게시글 상세 조회 */
-	@GetMapping("/get")
+	/* 게시글 상세 조회 / 게시글 수정 폼 */
+	@GetMapping({"/get","/modify"})
 	public void get(@RequestParam("bno") Long bno, Model model) {
 		
 		log.info("/get");
@@ -66,7 +70,9 @@ public class BoardController {
 		model.addAttribute("board",service.get(bno));
 	}
 	
-	/* 게시글 수정 */
+	
+	
+	/* 게시글 수정 처리 */
 	@PostMapping("/modify")
 	public String modify(BoardVO board, RedirectAttributes rttr) {
 		log.info("modify:" + board);

@@ -38,10 +38,10 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">처리가 완료되었습니다.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">OK</button>
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
     <script src="/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="/resources/js/demo/datatables-demo.js"></script>
+   <!--  <script src="/resources/js/demo/datatables-demo.js"></script> -->
 
 <!-- 페이지의 네비메뉴 펼침 방지 처리  -->
 <script>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 import org.zerock.mapper.BoardMapper;
 
 import lombok.AllArgsConstructor;
@@ -20,8 +21,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void register(BoardVO board) {
-		mapper.insert(board);
-		//mapper.insertSelectKey(board);	
+		//mapper.insert(board);
+		//글 등록 후 등록한 글 번호 받기 위한 메소드
+		mapper.insertSelectKey(board);	
 	}
 
 	@Override
@@ -42,9 +44,16 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> getList() {
-		return mapper.getList();
+	public List<BoardVO> getList(Criteria cri) {
+		log.info("get List with criteria: " + cri);
+		
+		return  mapper.getListWithPaging(cri);
 	}
+
+//	@Override
+//	public List<BoardVO> getList() {
+//		return mapper.getList();
+//	}
 
 	
 
