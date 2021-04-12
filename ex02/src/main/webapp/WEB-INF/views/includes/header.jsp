@@ -71,8 +71,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                        <a class="collapse-item" href="/resources/buttons.html">Buttons</a>
+                        <a class="collapse-item" href="/resources/cards.html">Cards</a>
                     </div>
                 </div>
             </li>
@@ -88,10 +88,10 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
+                        <a class="collapse-item" href="/resources/utilities-color.html">Colors</a>
+                        <a class="collapse-item" href="/resources/utilities-border.html">Borders</a>
+                        <a class="collapse-item" href="/resources/utilities-animation.html">Animations</a>
+                        <a class="collapse-item" href="/resources/utilities-other.html">Other</a>
                     </div>
                 </div>
             </li>
@@ -114,13 +114,13 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                        <a class="collapse-item" href="/resources/login.html">Login</a>
+                        <a class="collapse-item" href="/resources/register.html">Register</a>
+                        <a class="collapse-item" href="/resources/forgot-password.html">Forgot Password</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
+                        <a class="collapse-item" href="/resources/404.html">404 Page</a>
+                        <a class="collapse-item" href="/resources/blank.html">Blank Page</a>
                     </div>
                 </div>
             </li>
@@ -134,7 +134,7 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item active">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="/resources/tables.html">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tables</span></a>
             </li>
