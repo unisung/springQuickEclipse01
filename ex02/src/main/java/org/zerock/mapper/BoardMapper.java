@@ -23,4 +23,5 @@ public interface BoardMapper {
 	
 	public void update(BoardVO board);
 
+	public int getTotalCount(Criteria cri);
 }

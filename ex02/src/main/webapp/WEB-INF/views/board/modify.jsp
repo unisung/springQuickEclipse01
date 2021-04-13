@@ -19,6 +19,10 @@
    				 <div class="panel-body">
    				 		
    				 	<form action="/board/modify" method="post" role="form">
+   				 	<!-- pageNum, amount 추가 -->
+   				 	<input type="hidden" name="pageNum" value="<c:out value="${cri.pageNum}"/>">
+   				 	<input type="hidden" name="amount" value="<c:out value="${cri.amount}"/>">
+   				 	
    				 		   <div class="form-group">
    				 		  		<label>Bno</label>
    				 		  		<input  class="form-control form-control-user" name="bno" 

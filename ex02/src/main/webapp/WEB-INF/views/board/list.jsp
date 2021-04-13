@@ -34,7 +34,9 @@
                                      <c:forEach var="board" items="${list}">
                                         <tr>
                                             <td><c:out value="${board.bno}"/></td>
-                                            <td><a href='/board/get?bno=<c:out value="${board.bno}"/>'><c:out value="${board.title}"/></a></td>
+                                            <%-- <td><a href='/board/get?bno=<c:out value="${board.bno}"/>&pageNum=<c:out value="${pageMaker.cri.pageNum}"/>&amount=<c:out value="${pageMaker.cri.amount}"/>'><c:out value="${board.title}"/></a></td> --%>
+                                            <td><a class="move" href='<c:out value="${board.bno}"/>'><c:out value="${board.title}"/></a></td>
+                                            
                                             <td><c:out value="${board.writer}"/></td>
                                             <td><fmt:formatDate value="${board.regdate}" pattern="yyyy-MM-dd"/></td>
                                             <td><fmt:formatDate value="${board.updateDate}" pattern="yyyy-MM-dd"/></td>
@@ -76,7 +78,7 @@
                   <form  id="actionForm" action="/board/list" method="get">
                    <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
                    <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
-                    
+                  <!--   <input type='hidden' name='bno' value='"+$(this).attr("href") + "'> -->
                   </form>              
                                 
                             </div>
@@ -117,6 +119,14 @@ $(document).ready(function(){
 		console.log('click');
 		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 		actionForm.submit();
+	});
+	
+	//게시글 상세조회 처리
+	$('.move').on("click",function(e){
+		e.preventDefault();
+		actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href") + "'>");//form에 bno태그 추가
+		actionForm.attr("action","/board/get");//action경로 변경
+		actionForm.submit();//전송처리 subit();
 	});
 	
 	
