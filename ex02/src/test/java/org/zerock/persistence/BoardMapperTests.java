@@ -83,7 +83,7 @@ public class BoardMapperTests {
 		boardMapper.delete(1L);
 	}
 	
-	
+	@Ignore
 	@Test
 	public void testPaging() {
 		Criteria cri = new Criteria();
@@ -94,6 +94,17 @@ public class BoardMapperTests {
 		List<BoardVO> list = boardMapper.getListWithPaging(cri);
 		
 		list.forEach(board-> log.info(board.getBno()));
+	}
+	
+	@Test
+	public void testSearch() {
+		Criteria cri = new Criteria();
+		cri.setKeyword("새로");
+		cri.setType("TCW");
+		
+		List<BoardVO> list = boardMapper.getListWithPaging(cri);
+		
+		list.forEach(board ->log.info(board));
 	}
 	
 	

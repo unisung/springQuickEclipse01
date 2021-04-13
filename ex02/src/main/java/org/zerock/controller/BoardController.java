@@ -80,7 +80,8 @@ public class BoardController {
 	
 	/* 게시글 수정 처리 */
 	@PostMapping("/modify")
-	public String modify(BoardVO board, RedirectAttributes rttr, @ModelAttribute("cri") Criteria cri) {
+	/*public String modify(BoardVO board, RedirectAttributes rttr, @ModelAttribute("cri") Criteria cri) { */
+	public String modify(BoardVO board, RedirectAttributes rttr, Criteria cri) {
 		log.info("modify:" + board);
 		
 		if(service.modify(board)) {
@@ -90,12 +91,12 @@ public class BoardController {
 		rttr.addAttribute("pageNum",cri.getPageNum());
 		rttr.addAttribute("amount",cri.getAmount());
 		
-		return "redirect:/board/list";
+		return "redirect:/board/list"+cri.getListLink();//UriComponentBuilder를 이용한 파라미터 전송
 	}
 	
 	/* 게시글 삭제 */
 	@PostMapping("/remove")
-	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr, @ModelAttribute("cri") Criteria cri) {
+	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr,  Criteria cri) {
 		log.info("remove...." + bno);
 		if(service.remove(bno)) {
 			rttr.addFlashAttribute("result","success");
@@ -104,7 +105,7 @@ public class BoardController {
 		rttr.addAttribute("pageNum",cri.getPageNum());
 		rttr.addAttribute("amount",cri.getAmount());
 		
-		return "redirect:/board/list";
+		return "redirect:/board/list"+cri.getListLink();//UriComponentBuilder를 이용한 파라미터 전송
 	}
 	
 	

@@ -44,10 +44,41 @@
                                        </c:forEach> 
                                     </tbody>
                                 </table>
+                
+                
+        <div class="row">
+	        <div class="col-lg-3">
+	        
+	        <form id='searchForm' action='/board/list' method='get'>
+		        <select name="type" class="custom-select custom-select-sm form-control form-control-sm">
+		        <option value="" <c:out value="${pageMaker.cri.type==null?'selected':'' }"/>>--</option>
+		        <option value="T" <c:out value="${pageMaker.cri.type eq 'T'?'selected':'' }"/> >제목</option>
+		        <option value="C" <c:out value="${pageMaker.cri.type eq 'C'?'selected':'' }"/>>내용</option>
+		        <option value="W" <c:out value="${pageMaker.cri.type eq 'W'?'selected':'' }"/>>작성자</option>
+		        <option value="TC" <c:out value="${pageMaker.cri.type eq 'TC'?'selected':'' }"/>>제목 or 내용</option>
+		        <option value="TW" <c:out value="${pageMaker.cri.type eq 'TW'?'selected':'' }"/>>제목 or 작성자</option>
+		        <option value="TWC" <c:out value="${pageMaker.cri.type eq 'TWC'?'selected':'' }"/>>제목 or 내용 or 작성자</option>
+		        </select>
+		         
+		     <input type="text" name="keyword" value="<c:out value="${pageMaker.cri.keyword}"/>">
+		     <input type="hidden" name='pageNum' value="${pageMaker.cri.pageNum}">
+		     <input type="hidden" name='amount' value="${pageMaker.cri.amount}">
+		     
+		     <button class="btn btn-default">Search</button>
+		     </form>
+	        </div>
+
+        </div>        
+                
+                
+                
+                
+                                
+             <!--  start Pagination -->                   
               <div class="row">
               <div class="col-sm-12 col-md-5">
               <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
-                   Showing 1 to 10 of 57 entries</div>
+                   Showing ${pageMaker.startPage} to ${pageMaker.endPage} of ${pageMaker.total} entries</div>
               </div>
               <div class="col-sm-12 col-md-7">
               <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
@@ -79,6 +110,8 @@
                    <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
                    <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
                   <!--   <input type='hidden' name='bno' value='"+$(this).attr("href") + "'> -->
+                   <input type="hidden" name="type" value="<c:out value="${pageMaker.cri.type}"/>">
+                   <input type="hidden" name="keyword" value="<c:out value="${pageMaker.cri.keyword}"/>">
                   </form>              
                                 
                             </div>
@@ -129,6 +162,29 @@ $(document).ready(function(){
 		actionForm.submit();//전송처리 subit();
 	});
 	
+	//검색버튼 클릭 처리
+	var searchForm=$('#searchForm');
+	$('#searchForm button').on("click",function(e){
+		if(!searchForm.find("option:selected").val()){
+			$("#exampleModalLabel").html("검색종류 선택");
+			$(".modal-body").html("검색 종류를 선택하세요");
+		    $("#logoutModal").modal("show");
+			
+			return false;
+		}
+		
+		if(!searchForm.find("input[name='keyword']").val()){
+			$("#exampleModalLabel").html("검색");
+			$(".modal-body").html("키워드를 입력하세요");
+		    $("#logoutModal").modal("show");
+			return false;
+		}
+		
+		searchForm.find("input[name='pageNum']").val("1");//검색시 1페이지로 설정
+		e.preventDefault();
+		
+		searchForm.submit();
+	});
 	
 });
 </script>
