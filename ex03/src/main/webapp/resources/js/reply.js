@@ -94,12 +94,38 @@ var replyService =(function(){
 		        });
 	}
 	
+	//날짜포맷 출력 함수
+	function displayTime(timeValue){
+	  var today = new Date();
+	  
+	  var gap = today.getTime() - timeValue;
+	  
+	  var dateObj = new Date(timeValue);
+	  var str ="";
+	  
+	  if(gap < (1000* 60 * 60 * 24)){//24시간이 지나지 않으면 시간표시, 24시간이 넘으면 날짜표시
+	     var hh = dateObj.getHours();
+	     var mi = dateObj.getMinutes();
+	     var ss = dateObj.getSeconds();
+	     
+	     return [ (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':', (ss > 9 ? '' : '0') + ss ].join(' ');//하나의 문자열로
+	  }else{
+	     var yy = dateObj.getFullYear();
+	     var mm = dateObj.getMonth() + 1;
+	     var dd = dateObj.getDate();
+	     
+	     return [yy, '/', (mm >9 ? '':'0' ) +mm, '/', (dd > 9 ? '':'0') + dd ].join(' ');
+	  }
+      //예  ['a','b','c'].join(' ') => 'a b c'
+	  
+	}
 	
 	return {add:add,
 			  getList:getList,
 			  remove:remove,
 			  update:update,
-			  get:get
+			  get:get,
+			  displayTime:displayTime
 				};
 				/* replyService = add(){} */ 
 
