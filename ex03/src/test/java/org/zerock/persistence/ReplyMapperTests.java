@@ -3,7 +3,6 @@ package org.zerock.persistence;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import org.junit.Ignore;
@@ -12,10 +11,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.ReplyVO;
-import org.zerock.mapper.BoardMapper;
 import org.zerock.mapper.ReplyMapper;
 
 import lombok.Setter;
@@ -48,6 +45,7 @@ public class ReplyMapperTests {
 		});
 	}
 	
+	@Ignore
 	@Test
 	public void testRead() {
 		Long targetRno = 5L;
@@ -63,5 +61,16 @@ public class ReplyMapperTests {
 	    assertNotNull(mapper);
 	}
 	
+	
+	@Test
+	public void testList() {
+		Criteria cri = new Criteria();
+		//98L
+		List<ReplyVO> replies 
+		         = mapper.getListWithPaging(cri, bnoArr[1]);
+		
+		replies.forEach(reply ->log.info(reply));
+		
+	}
 	
 }
