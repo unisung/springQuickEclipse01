@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @RestController
-@RequestMapping("/replies/**")
+@RequestMapping("/replies/") /*/replies/** <- rest에서는 /replies/로 만 처리 */
 @Log4j
 @AllArgsConstructor
 public class ReplyController {
@@ -46,7 +46,7 @@ public class ReplyController {
 	}
 	
 	//댓글 목록 보기
-	@GetMapping(value="/page/{bno}/{page}",
+	@GetMapping(value="/pages/{bno}/{page}",
 					produces= {MediaType.APPLICATION_XML_VALUE,
 							         MediaType.APPLICATION_JSON_UTF8_VALUE} )
 	public ResponseEntity<List<ReplyVO>> getList(
@@ -56,6 +56,10 @@ public class ReplyController {
 		 Criteria cri = new Criteria(page, 10);
 		 
 		 log.info(cri);
+		 
+		 List<ReplyVO> list = service.getList(cri, bno);
+		 for(ReplyVO vo:list)
+			 System.out.println(vo);
 		 
 		return new ResponseEntity<List<ReplyVO>>(service.getList(cri, bno), HttpStatus.OK); 
 	}

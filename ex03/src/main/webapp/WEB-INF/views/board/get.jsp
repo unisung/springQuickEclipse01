@@ -62,6 +62,51 @@
    		</div>
    </div>       <!-- ./row -->        
                   
+ <!-- reply.js 모듈 추가 -->
+ <script type="text/javascript" src="/resources/js/reply.js"></script> 
+ <!-- reply.js 모듈의 replyService객체 생성 --> 
+<script>
+	$(document).ready(function(){
+		console.log(replyService);
+	});
+	
+ console.log("============");
+ console.log("JS  TEST");
+ 
+ var bnoValue = '<c:out value="${board.bno}"/>';
+ 
+ //for replyService add test
+ replyService.add(
+	{reply:"JS TEST",replyer:"tester", bno:bnoValue}		,
+	function(result){alert("RESULT: "+result);}
+ ); 
+ 
+ replyService.getList({bno:bnoValue, page:1}, function(list){
+	 for(var i=0, len = list.length||0;  i < len;  i++){
+		   console.log(list[i]);
+	 }
+ });
+ 
+ // 37번 글 삭제
+ replyService.remove(37, function(count){
+	 console.log(count);
+	 if(count==="success"){
+		 alert('REMOVED');
+	 }
+ },function(err){alert('ERROR....');});
+ 
+
+ // 25번 댓글 수정
+ replyService.update({rno:25, bno:bnoValue, reply:"Modified Reply...."},
+		                       function(result){alert("수정완료....");}		 
+                             );
+
+ // 25댓글 조회
+ replyService.get(25, function(data){console.log(data);});
+ 
+ 
+ </script>                
+                
  <script>
  var operForm=$("#operForm");
  $("button[data-oper='modify']").on('click',function(e){
@@ -73,7 +118,7 @@
 	 operForm.attr("action","/board/list");
 	 operForm.submit();//submit처리
  })
-  
+ 
  </script>                 
                     
 
