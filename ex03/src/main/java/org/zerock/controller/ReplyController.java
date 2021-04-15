@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.ReplyPageDTO;
 import org.zerock.domain.ReplyVO;
 import org.zerock.service.ReplyService;
 
@@ -49,7 +50,8 @@ public class ReplyController {
 	@GetMapping(value="/pages/{bno}/{page}",
 					produces= {MediaType.APPLICATION_XML_VALUE,
 							         MediaType.APPLICATION_JSON_UTF8_VALUE} )
-	public ResponseEntity<List<ReplyVO>> getList(
+	/*public ResponseEntity<List<ReplyVO>> getList(*/
+	public ResponseEntity<ReplyPageDTO> getList(
 			 @PathVariable("page") int page,
 			 @PathVariable("bno") Long bno ){
 		 log.info("getList ................");
@@ -57,11 +59,13 @@ public class ReplyController {
 		 
 		 log.info(cri);
 		 
-		 List<ReplyVO> list = service.getList(cri, bno);
-		 for(ReplyVO vo:list)
-			 System.out.println(vo);
+		// List<ReplyVO> list = service.getList(cri, bno);
+		// for(ReplyVO vo:list)
+		//	 System.out.println(vo);
 		 
-		return new ResponseEntity<List<ReplyVO>>(service.getList(cri, bno), HttpStatus.OK); 
+		//return new ResponseEntity<List<ReplyVO>>(service.getList(cri, bno), HttpStatus.OK); 
+		 //댓글갯수와 리스트를 담은 객체리턴 
+		 return new ResponseEntity<ReplyPageDTO>(service.getListPage(cri, bno), HttpStatus.OK); 
 	}
 	
 	//댓글 한 건 조회  /  /replies/3

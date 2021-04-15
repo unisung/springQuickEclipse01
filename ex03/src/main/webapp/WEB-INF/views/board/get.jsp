@@ -78,6 +78,7 @@
 <!-- /.row -->
 
 
+<!--  댓글 영역 -->
 <div class='row'>
 
   <div class="col-lg-12">
@@ -98,7 +99,7 @@
       <div class="panel-body">        
       
         <ul class="chat">
-
+        <!-- - 댓글 리스트 출력되는 부분  -->
         </ul>
         <!-- ./ end ul -->
       </div>
@@ -114,7 +115,7 @@
 
 
 
-<!-- Modal -->
+<!-- 댓글 등록용  Modal -->
       <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
         aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -139,7 +140,7 @@
               </div>
       
             </div>
-<div class="modal-footer">
+      <div class="modal-footer">
         <button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
         <button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
         <button id='modalRegisterBtn' type="button" class="btn btn-primary">Register</button>
@@ -168,14 +169,14 @@ function showList(page){
 	
 	  console.log("show list " + page);
     
-    replyService.getList({bno:bnoValue,page: page|| 1 }, function(replyCnt, list) {
+    replyService.getList({bno:bnoValue,page: page|| 1 }, function(replyCnt,list) {
       
-    console.log("replyCnt: "+ replyCnt );
-    console.log("list: " + list);
-    console.log(list);
+    console.log("replyCnt: "+ JSON.stringify(replyCnt) );
+    console.log("list: " +  JSON.stringify(list));
+    //console.log(list);
     
     if(page == -1){
-      pageNum = Math.ceil(replyCnt/10.0);
+      pageNum = Math.ceil(replyCnt/10.0);// 입력값이 -1이면 page를 다시 생성, 2/10.0 -> 0.2->1
       showList(pageNum);
       return;
     }

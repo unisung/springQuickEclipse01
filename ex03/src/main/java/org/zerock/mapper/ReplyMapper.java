@@ -17,4 +17,7 @@ public interface ReplyMapper {
 	
 	public List<ReplyVO> getListWithPaging(@Param("cri") Criteria cri, 
 			                                                 @Param("bno") Long bno);
+	//댓글 갯수 계산 메소드 추가
+	public int getCountByBno(Long bno);
+	
 }
