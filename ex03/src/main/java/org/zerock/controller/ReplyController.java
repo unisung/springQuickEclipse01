@@ -29,7 +29,7 @@ public class ReplyController {
 	private ReplyService service;
 	
 	//등록처리 json데이타를 파라미터로 받아서 java ReplyVO객체로 변환하여 DB저장
-	@PostMapping(value="/new",
+	@PostMapping(value="/new", // replies/new
 			             consumes = "application/json", 
 			             produces = {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> create(@RequestBody ReplyVO vo){
@@ -64,7 +64,7 @@ public class ReplyController {
 		return new ResponseEntity<List<ReplyVO>>(service.getList(cri, bno), HttpStatus.OK); 
 	}
 	
-	//댓글 한 건 조회
+	//댓글 한 건 조회  /  /replies/3
 	@GetMapping(value="/{rno}",produces= {MediaType.APPLICATION_XML_VALUE,
 							                                   MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public ResponseEntity<ReplyVO> get(@PathVariable("rno") Long rno){
@@ -73,7 +73,7 @@ public class ReplyController {
 		 return new ResponseEntity<ReplyVO>(service.get(rno),HttpStatus.OK);
 	}
 	
-	//댓글 한 건 삭제
+	//댓글 한 건 삭제  /replies/3
 	@DeleteMapping(value="/{rno}",produces= {MediaType.TEXT_PLAIN_VALUE})
 public ResponseEntity<String> remove(@PathVariable("rno") Long rno){
 		log.info("remove ........: " + rno);
@@ -84,7 +84,7 @@ return service.remove(rno)==1
 	}
 	
 	//댓글 수정 - JSON으로 전달되는 파라미터를 JAVA로 변환하여 처리
-	@RequestMapping(value="/{rno}",
+	@RequestMapping(value="/{rno}",  //  /replies/3
 			                  method= {RequestMethod.PUT, RequestMethod.PATCH},
 					          consumes = "application/json", 
 					          produces = {MediaType.TEXT_PLAIN_VALUE})
