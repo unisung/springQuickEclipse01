@@ -8,11 +8,20 @@
 </head>
 <body>
 	
+	 <h1>Upload with Ajax</h1>
+	 
 	<div class="uploadDiv">
 		<input type="file" name='uploadFile' multiple>
 	</div>
 	
+	<!-- 전송결과 리스트 출력 부분  -->
+	<div class='uploadResult'>
+	  <ul></ul>
+	</div>
+	
 	<button id="uploadBtn">Upload</button>
+	
+	
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
@@ -38,6 +47,21 @@
 				return true;
 			}
 			 
+		//업로드 리스트 출력 함수
+		var uploadResult = $(".uploadResult ul");
+		function showUploadedFile(uploadResultArr){
+			var str="";
+			
+			$(uploadResultArr).each(function(i, obj){
+				
+				str += "<li>" + obj.fileName +"</li>";
+			});
+			
+			uploadResult.append(str);
+		}
+			
+		  // 클래스가 uploadDiv인 <div> 요소 복제
+		  var cloneObj = $(".uploadDiv").clone();
 		  
 		  $("#uploadBtn").on("click",function(e){
 			 var formData = new FormData(); /// <form>  요소 동적 생성
@@ -66,8 +90,16 @@
 				 contentType:false,
 				 data:formData,
 				 type:'POST',
+				 dataType:'json',
 				 success:function(result){
-					 alert('Uploaded');
+					 //alert('Uploaded');
+					 console.log(result);
+					 
+					 //업로드 리스트 출력 함수 호출
+					 showUploadedFile(result);
+					 
+					 //upload처리 전의 초기상태로 설정
+					 $(".uploadDiv").html(cloneObj.html());// 요소.thml()-get, 요소.html(내용)-set;
 				 }
 			 });//$.ajax() 끝.
 		  });

@@ -4,14 +4,20 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.zerock.domain.AttachFileDTO;
 
 import lombok.extern.log4j.Log4j;
 import net.coobird.thumbnailator.Thumbnailator;
@@ -52,8 +58,14 @@ public class UploadController {
 		log.info("upload ajax");
 	}
 	
-	@PostMapping("/uploadAjaxAction")
-	public void uploadAjaxAction(MultipartFile[] uploadFile) {
+	//@PostMapping("/uploadAjaxAction")
+	@PostMapping(value="/uploadAjaxAction",
+			             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	//public void uploadAjaxAction(MultipartFile[] uploadFile) {
+	public ResponseEntity<List<AttachFileDTO>> uploadAjaxAction(MultipartFile[] uploadFile) {
+		//전송완료된 파일 목록 저장 리스트
+		List<AttachFileDTO> list = new ArrayList<AttachFileDTO>();
+		
 		log.info("upload ajax post.........");
 		log.info("upload ajax post...업로드 컨트롤러 ......");
 		
@@ -73,6 +85,9 @@ public class UploadController {
 		log.info("파일: "+uploadFile.length);
 		
 		for(MultipartFile multipartFile : uploadFile) {
+			//업로드된 파일 정보 저장 객체 생성
+			AttachFileDTO attachDTO = new AttachFileDTO();
+			
 			log.info("-----------------------------------");
 			log.info("upload File Name: " + multipartFile.getOriginalFilename() );
 			log.info("upload File Size: " + multipartFile.getSize() );
@@ -83,6 +98,9 @@ public class UploadController {
 		  //IE has file path
 		  uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);
 		  log.info("only file name: " + uploadFileName);
+		  
+		  //전송될 파일 명 얻기
+		  attachDTO.setFileName(uploadFileName);
 		  
 		  /* 전송되는 파일명이 동일하지 않도록 UUID를 이용한 랜덤 파일명 생성 처리 */
 		  UUID uuid = UUID.randomUUID();
@@ -96,9 +114,16 @@ public class UploadController {
 		  try {
 			  //전송처리 transferTo();
 			     multipartFile.transferTo(saveFile);
+			     //전송후 전송된 파일 정보 저장
+			     attachDTO.setUuid(uuid.toString());//uuid
+			     attachDTO.setUploadPath(uploadFolder);//upload경로
+			     
 			  
 			     //썸네일 처리 
 			     if(checkImageType(saveFile)) {//이미지 파일이면 썸네일 처리
+			    	 //이미지 파일 이므로 true로 설정
+			    	 attachDTO.setImage(true);
+			    	 
 			    	 //썸네일 파일 정보 생성
 			    	 FileOutputStream thumbnail 
 			    	              = new FileOutputStream(new File(uploadPath, "s_"+uploadFileName));
@@ -107,10 +132,16 @@ public class UploadController {
 			    	 //자원 해제
 			    	 thumbnail.close();
 			     }
+			     
+			     /********  list에 전송한 파일 정보 add하기   ****** */
+			     list.add(attachDTO);
+			     
 		  }catch(Exception e) {
 			  log.error(e.getMessage());
 		  }
 		}
+		// 업로드된 파일 목록정보와 상태코드를 결과 값으로 넘김 - json타입
+		return new ResponseEntity<List<AttachFileDTO>>(list, HttpStatus.OK);
 	}
 	
 	//폴더 처리 메소드 
