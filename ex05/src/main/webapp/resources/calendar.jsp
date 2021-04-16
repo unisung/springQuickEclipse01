@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
+    <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <%
     Calendar cal = Calendar.getInstance();
     int year = request.getParameter("y") == null ? cal.get(Calendar.YEAR) : Integer.parseInt(request.getParameter("y"));
@@ -30,6 +31,7 @@
         nextMonth = 1;
     }
 %>
+<div class="container">
 <table border="0" cellpadding="0" cellspacing="0">
 <tr>
     <td align="center"><a href="./calendar.jsp?y=<%=prevYear%>&m=<%=prevMonth%>">◁</a> <%=year%>년 <%=month+1%>월 <a href="./calendar.jsp?y=<%=nextYear%>&m=<%=nextMonth%>">▷</a></td>
@@ -37,9 +39,9 @@
 <tr>
     <td>
 
-        <table border="1">
+        <table class="table table-striped" border="1">
         <tr>
-            <td>일</td>
+            <td class="col-md-6">일</td>
             <td>월</td>
             <td>화</td>
             <td>수</td>
@@ -73,3 +75,4 @@
     </td>
 </tr>
 </table>
+</div>
