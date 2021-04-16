@@ -5,6 +5,33 @@
 <head>
 <meta charset="UTF-8">
 <title>Upload with Ajax</title>
+<style>
+.uploadResult{ width: 100%; background-color: gray; }
+.uploadResult ul{ display: flex, flex-flow:row; justify-content: center; align-items: center;}
+.uploadResult ul li{list-style: none; padding: 10px;}
+.uploadResult ul li img{width: 20px;}
+</style>
+<style>
+.bigPictureWrapper {
+  position: absolute;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  top:0%;
+  width:100%;
+  height:100%;
+  background-color: gray; 
+  z-index: 100;
+}
+
+.bigPicture {
+  position: relative;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
+
 </head>
 <body>
 	
@@ -21,10 +48,30 @@
 	
 	<button id="uploadBtn">Upload</button>
 	
+	<!--  원본 이미지 출력 부분  -->
+	<div class ="bigPictureWrapper">
+	       <div class="bigPicture"></div>
+	</div>
 	
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
+	
+	function showImage(fileCallPath){
+		//alert("fileCallPath");
+		$(".bigPictureWrapper").css("display","flex").show();
+		
+		  $(".bigPicture").html("<img src='/display?fileName="+fileCallPath+"'>")
+		     .animate({width:'100%', height: '100%'}, 1000);
+	}
+	
+
+	$(".bigPictureWrapper").on("click", function(e){
+	  $(".bigPicture").animate({width:'0%', height: '0%'}, 1000);
+	  //setTimeout( () => {   $(this).hide(); }, 1000);//람다식
+	  setTimeout(function(){$('.bigPictureWrapper').hide()},1000);
+	});
+	
 	  $(document).ready(function(){
 		  
 			//전송할 파일 사이즈 체크
@@ -47,6 +94,8 @@
 				return true;
 			}
 			 
+
+			
 		//업로드 리스트 출력 함수
 		var uploadResult = $(".uploadResult ul");
 		function showUploadedFile(uploadResultArr){
@@ -54,7 +103,25 @@
 			
 			$(uploadResultArr).each(function(i, obj){
 				
-				str += "<li>" + obj.fileName +"</li>";
+				if(!obj.image){//이미지가 아닌 경우
+					
+					var fileCallPath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
+				
+					 console.log("not Image:", fileCallPath);
+					str +="<li><a href='/download?fileName="+fileCallPath 
+							       +"'><img src='/resources/img/attach.png'>" + obj.fileName+"</a></li>";
+				}else{//이미지파일인 경우
+					str += "<li>" + obj.fileName +"</li>";
+					
+					var fileCallPath = encodeURIComponent(obj.uploadPath+"/s_"+obj.uuid+"_"+obj.fileName);
+				
+					var originPath = obj.uploadPath +"\\" + obj.uuid + "_" +obj.fileName;
+					originPath = originPath.replace(new RegExp(/\\/g),"/");// 
+					    
+					 console.log(fileCallPath);
+					str +="<li><a href=\"javascript:showImage(\'" + originPath+"\')\"><img src='/display?fileName=" 
+							               + fileCallPath+"'></a></li>";
+				}
 			});
 			
 			uploadResult.append(str);
