@@ -2,6 +2,7 @@ package org.zerock.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import javax.xml.crypto.URIDereferencer;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -224,6 +227,34 @@ public class UploadController {
 		}
 		
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+	}
+	
+	//upload파일 삭제 
+	@PostMapping("/deleteFile")
+	@ResponseBody
+	public ResponseEntity<String> deleteFile(String fileName, String type){
+		log.info("deleteFile: " + fileName);
+		
+		File file;
+		
+		try { 
+			     //upload디렉토리에서 해당파일 정보 얻기
+			      file = new File("c:\\upload\\"+URLDecoder.decode(fileName,"UTF-8"));
+			      //파일 삭제
+			      file.delete();
+			      
+			      //파일타입이 iamge이면 썸네일 파일도 삭제
+			      if(type.equals("image")) {
+			    	  String largeFileName = file.getAbsolutePath().replace("s_","");
+			    	  log.info("largeFileName: "+largeFileName);
+			    	  file = new File(largeFileName);
+			    	  file.delete();
+			      }
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<String>("deleted",HttpStatus.OK);
 	}
 	
 	//폴더 처리 메소드 

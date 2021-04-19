@@ -7,7 +7,7 @@
 
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header">Board Register</h1>
+    <h1 class="page-header">Board Read</h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>
@@ -78,7 +78,86 @@
 <!-- /.row -->
 
 
-<!--  댓글 영역 -->
+
+<div class='bigPictureWrapper'>
+  <div class='bigPicture'>
+  </div>
+</div>
+
+
+
+<style>
+.uploadResult {
+  width:100%;
+  background-color: gray;
+}
+.uploadResult ul{
+  display:flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+}
+.uploadResult ul li {
+  list-style: none;
+  padding: 10px;
+  align-content: center;
+  text-align: center;
+}
+.uploadResult ul li img{
+  width: 100px;
+}
+.uploadResult ul li span {
+  color:white;
+}
+.bigPictureWrapper {
+  position: absolute;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  top:0%;
+  width:100%;
+  height:100%;
+  background-color: gray; 
+  z-index: 100;
+  background:rgba(255,255,255,0.5);
+}
+.bigPicture {
+  position: relative;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bigPicture img {
+  width:600px;
+}
+
+</style>
+
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+
+      <div class="panel-heading">Files</div>
+      <!-- /.panel-heading -->
+      <div class="panel-body">
+        
+        <div class='uploadResult'> 
+          <ul>
+          </ul>
+        </div>
+      </div>
+      <!--  end panel-body -->
+    </div>
+    <!--  end panel-body -->
+  </div>
+  <!-- end panel -->
+</div>
+<!-- /.row -->
+
+
 <div class='row'>
 
   <div class="col-lg-12">
@@ -99,7 +178,7 @@
       <div class="panel-body">        
       
         <ul class="chat">
-        <!-- - 댓글 리스트 출력되는 부분  -->
+
         </ul>
         <!-- ./ end ul -->
       </div>
@@ -115,7 +194,7 @@
 
 
 
-<!-- 댓글 등록용  Modal -->
+<!-- Modal -->
       <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
         aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -140,7 +219,7 @@
               </div>
       
             </div>
-      <div class="modal-footer">
+<div class="modal-footer">
         <button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
         <button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
         <button id='modalRegisterBtn' type="button" class="btn btn-primary">Register</button>
@@ -165,45 +244,45 @@ $(document).ready(function () {
   
     showList(1);
     
-function showList(page){
-	
-	  console.log("show list " + page);
-    
-    replyService.getList({bno:bnoValue,page: page|| 1 }, function(replyCnt,list) {
-      
-    console.log("replyCnt: "+ JSON.stringify(replyCnt) );
-    console.log("list: " +  JSON.stringify(list));
-    //console.log(list);
-    
-    if(page == -1){
-      pageNum = Math.ceil(replyCnt/10.0);// 입력값이 -1이면 page를 다시 생성, 2/10.0 -> 0.2->1
-      showList(pageNum);
-      return;
-    }
-      
-     var str="";
-     
-     if(list == null || list.length == 0){
-       return;
-     }
-     
-     for (var i = 0, len = list.length || 0; i < len; i++) {
-       str +="<li class='left clearfix' data-rno='"+list[i].rno+"'>";
-       str +="  <div><div class='header'><strong class='primary-font'>["
-    	   +list[i].rno+"] "+list[i].replyer+"</strong>"; 
-       str +="    <small class='pull-right text-muted'>"
-           +replyService.displayTime(list[i].replyDate)+"</small></div>";
-       str +="    <p>"+list[i].reply+"</p></div></li>";
-     }
-     
-     replyUL.html(str);
-     
-     showReplyPage(replyCnt);
+    function showList(page){
+    	
+    	console.log("show list " + page);
+        
+        replyService.getList({bno:bnoValue,page: page|| 1 }, function(replyCnt, list) {
+          
+        console.log("replyCnt: "+ replyCnt );
+        console.log("list: " + list);
+        console.log(list);
+        
+        if(page == -1){
+          pageNum = Math.ceil(replyCnt/10.0);
+          showList(pageNum);
+          return;
+        }
+          
+         var str="";
+         
+         if(list == null || list.length == 0){
+           return;
+         }
+         
+         for (var i = 0, len = list.length || 0; i < len; i++) {
+           str +="<li class='left clearfix' data-rno='"+list[i].rno+"'>";
+           str +="  <div><div class='header'><strong class='primary-font'>["
+        	   +list[i].rno+"] "+list[i].replyer+"</strong>"; 
+           str +="    <small class='pull-right text-muted'>"
+               +replyService.displayTime(list[i].replyDate)+"</small></div>";
+           str +="    <p>"+list[i].reply+"</p></div></li>";
+         }
+         
+         replyUL.html(str);
+         
+         showReplyPage(replyCnt);
 
- 
-   });//end function
      
- }//end showList
+       });//end function
+         
+     }//end showList
     
     var pageNum = 1;
     var replyPageFooter = $(".panel-footer");
@@ -230,6 +309,8 @@ function showList(page){
         str+= "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
       }
       
+       
+      
       for(var i = startNum ; i <= endNum; i++){
         
         var active = pageNum == i? "active":"";
@@ -249,17 +330,17 @@ function showList(page){
     }
      
     replyPageFooter.on("click","li a", function(e){
-       e.preventDefault();
-       console.log("page click");
-       
-       var targetPageNum = $(this).attr("href");
-       
-       console.log("targetPageNum: " + targetPageNum);
-       
-       pageNum = targetPageNum;
-       
-       showList(pageNum);
-     });     
+        e.preventDefault();
+        console.log("page click");
+        
+        var targetPageNum = $(this).attr("href");
+        
+        console.log("targetPageNum: " + targetPageNum);
+        
+        pageNum = targetPageNum;
+        
+        showList(pageNum);
+      });     
 
     
 /*     function showList(page){
@@ -501,6 +582,92 @@ $(document).ready(function() {
   });  
 });
 </script>
+
+
+<script>
+$(document).ready(function(){
+  
+  (function(){
+    var bno = '<c:out value="${board.bno}"/>';
+    /* $.getJSON("/board/getAttachList", {bno: bno}, function(arr){    
+      console.log(arr);
+    }); ///end getjson
+    */
+    $.getJSON("/board/getAttachList", {bno: bno}, function(arr){
+        
+       console.log(arr);
+       
+       var str = "";
+       
+       $(arr).each(function(i, attach){
+       
+         //image type
+         if(attach.fileType){
+           var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/s_"+attach.uuid +"_"+attach.fileName);
+           
+           str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+           str += "<img src='/display?fileName="+fileCallPath+"'>";
+           str += "</div>";
+           str +"</li>";
+         }else{
+             
+           str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+           str += "<span> "+ attach.fileName+"</span><br/>";
+           str += "<img src='/resources/img/attach.png'></a>";
+           str += "</div>";
+           str +"</li>";
+         }
+       });
+       
+       $(".uploadResult ul").html(str);
+       
+       
+     });//end getjson
+
+  })();//end function
+  
+  $(".uploadResult").on("click","li", function(e){
+      
+    console.log("view image");
+    
+    var liObj = $(this);
+    
+    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
+    
+    if(liObj.data("type")){
+      showImage(path.replace(new RegExp(/\\/g),"/"));
+    }else {
+      //download 
+      self.location ="/download?fileName="+path
+    }
+    
+    
+  });
+  
+  function showImage(fileCallPath){
+	    
+    alert(fileCallPath);
+    
+    $(".bigPictureWrapper").css("display","flex").show();
+    
+    $(".bigPicture")
+    .html("<img src='/display?fileName="+fileCallPath+"' >")
+    .animate({width:'100%', height: '100%'}, 1000);
+    
+  }
+
+  $(".bigPictureWrapper").on("click", function(e){
+    $(".bigPicture").animate({width:'0%', height: '0%'}, 1000);
+    setTimeout(function(){
+      $('.bigPictureWrapper').hide();
+    }, 1000);
+  });
+
+  
+});
+
+</script>
+
 
 
 <%@include file="../includes/footer.jsp"%>

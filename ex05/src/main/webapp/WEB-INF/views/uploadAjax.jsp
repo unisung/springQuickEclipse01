@@ -108,8 +108,9 @@
 					var fileCallPath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
 				
 					 console.log("not Image:", fileCallPath);
-					str +="<li><a href='/download?fileName="+fileCallPath 
-							       +"'><img src='/resources/img/attach.png'>" + obj.fileName+"</a></li>";
+					str +="<li><div><a href='/download?fileName="+fileCallPath 
+							       +"'><img src='/resources/img/attach.png'>" + obj.fileName+"</a>"+
+							       "<span data-file=\'"+fileCallPath+"\' data-type='file'>x</span></div></li>";
 				}else{//이미지파일인 경우
 					str += "<li>" + obj.fileName +"</li>";
 					
@@ -120,13 +121,32 @@
 					    
 					 console.log(fileCallPath);
 					str +="<li><a href=\"javascript:showImage(\'" + originPath+"\')\"><img src='/display?fileName=" 
-							               + fileCallPath+"'></a></li>";
+							               + fileCallPath+"'></a>"+
+							               "<span data-file=\'"+fileCallPath+"\' data-type='image'>x</span></li>";
 				}
 			});
 			
 			uploadResult.append(str);
 		}
 			
+		
+		//파일 삭제 처리
+		$(".uploadResult").on("click","span",function(e){
+			 var targetFile = $(this).data("file");
+			 var type=$(this).data("type");
+			 console.log(targetFile);
+			 
+			 $.ajax({
+				 url:'/deleteFile',
+				 data:{fileName:targetFile, type:type},
+				 dataType:'text',
+				 type:'POST',
+				 success:function(result){
+					 alert(result);
+				 }
+				 });
+		});
+		
 		  // 클래스가 uploadDiv인 <div> 요소 복제
 		  var cloneObj = $(".uploadDiv").clone();
 		  
