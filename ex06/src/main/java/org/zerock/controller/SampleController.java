@@ -26,6 +26,8 @@ public class SampleController {
 	  log.info("admin only");
   }
      
-  
-	
+  @GetMapping("/oper")  //  /sample/oper- 운영자만 접근 가능 리소스
+  public void doOper() {
+	  log.info("logined operation");
+  }	
 }
