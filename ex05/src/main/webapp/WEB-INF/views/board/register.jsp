@@ -208,8 +208,9 @@ $(document).ready(function(e){
     $.ajax({
       url: '/uploadAjaxAction',
       processData: false, 
-      contentType: false,data: 
-      formData,type: 'POST',
+      contentType: false,
+      data: formData,
+      type: 'POST',
       dataType:'json',
         success: function(result){
           console.log(result); 
