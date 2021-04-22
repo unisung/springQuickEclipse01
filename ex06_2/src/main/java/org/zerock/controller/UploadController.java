@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -68,6 +69,8 @@ public class UploadController {
 		log.info("upload ajax");
 	}
 	
+	
+	@PreAuthorize("isAuthenticated()")
 	//@PostMapping("/uploadAjaxAction")
 	@PostMapping(value="/uploadAjaxAction",
 			             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -230,6 +233,7 @@ public class UploadController {
 	}
 	
 	//upload파일 삭제 
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/deleteFile")
 	@ResponseBody
 	public ResponseEntity<String> deleteFile(String fileName, String type){

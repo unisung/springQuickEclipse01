@@ -2,6 +2,8 @@
   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <%@include file="../includes/header.jsp"%>
 
 
@@ -48,7 +50,13 @@
         <a href="/board/list">List</a></button> --%>
 
 
-<button data-oper='modify' class="btn btn-default">Modify</button>
+<sec:authentication property="principal" var="pinfo"/>
+<sec:authorize access="isAuthenticated()">
+  <c:if test="${pinfo.username eq board.writer}">
+	<button data-oper='modify' class="btn btn-default">Modify</button>
+  </c:if>
+</sec:authorize>
+
 <button data-oper='list' class="btn btn-info">List</button>
 
 <%-- <form id='operForm' action="/boad/modify" method="get">
@@ -170,7 +178,11 @@
       
       <div class="panel-heading">
         <i class="fa fa-comments fa-fw"></i> Reply
+        
+        <!-- 미 로그인시 숨기고, 로그인시 보여줌  -->
+       <sec:authorize access="isAuthenticated()">  
         <button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>New Reply</button>
+      </sec:authorize>
       </div>      
       
       
@@ -238,7 +250,7 @@
 <script>
 
 $(document).ready(function () {
-  
+
   var bnoValue = '<c:out value="${board.bno}"/>';
   var replyUL = $(".chat");
   
@@ -342,32 +354,7 @@ $(document).ready(function () {
         showList(pageNum);
       });     
 
-    
-/*     function showList(page){
-      
-      replyService.getList({bno:bnoValue,page: page|| 1 }, function(list) {
-        
-        var str="";
-       if(list == null || list.length == 0){
-        
-        replyUL.html("");
-        
-        return;
-      }
-       for (var i = 0, len = list.length || 0; i < len; i++) {
-           str +="<li class='left clearfix' data-rno='"+list[i].rno+"'>";
-           str +="  <div><div class='header'><strong class='primary-font'>"+list[i].replyer+"</strong>"; 
-           str +="    <small class='pull-right text-muted'>"+replyService.displayTime(list[i].replyDate)+"</small></div>";
-           str +="    <p>"+list[i].reply+"</p></div></li>";
-         }
 
-
-    replyUL.html(str);
-
-      });//end function
-      
-   }//end showList */
-   
     var modal = $(".modal");
     var modalInputReply = modal.find("input[name='reply']");
     var modalInputReplyer = modal.find("input[name='replyer']");
@@ -377,6 +364,20 @@ $(document).ready(function () {
     var modalRemoveBtn = $("#modalRemoveBtn");
     var modalRegisterBtn = $("#modalRegisterBtn");
     
+    var replyer=null;
+    
+    <sec:authorize access="isAuthenticated()">
+    
+    replyer='<sec:authentication property="principal.username"/>';
+    
+    </sec:authorize>
+    
+  //_csrf 토큰 추가
+    /// POST, PUT, PATCH, DELETE와 같은 방식 전송시 'X-CSRF-TOKEN' 헤드 추가전송.
+    var csrfHeaderName ="${_csrf.headerName}";
+    var csrfTokenValue="${_csrf.token}";
+    
+    
     $("#modalCloseBtn").on("click", function(e){
     	
     	modal.modal('hide');
@@ -385,6 +386,9 @@ $(document).ready(function () {
     $("#addReplyBtn").on("click", function(e){
       
       modal.find("input").val("");
+      
+      modal.find("input[name='replyer']").val(replyer);
+      
       modalInputReplyDate.closest("div").hide();
       modal.find("button[id !='modalCloseBtn']").hide();
       
@@ -394,7 +398,14 @@ $(document).ready(function () {
       
     });
     
+  //Ajax spring security header........
+    /* 모든 Ajax 전송시 CSRF토큰을 같이 전송처리 - beforeSend추가 안해도 됨.  */
+    $(document).ajaxSend(function(e, xhr, options){
+    	 xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+    });
 
+
+  
     modalRegisterBtn.on("click",function(e){
       
       var reply = {
@@ -439,39 +450,30 @@ $(document).ready(function () {
       });
     });
   
-    
-/*     modalModBtn.on("click", function(e){
-      
-      var reply = {rno:modal.data("rno"), reply: modalInputReply.val()};
-      
-      replyService.update(reply, function(result){
-            
-        alert(result);
-        modal.modal("hide");
-        showList(1);
-        
-      });
-      
-    });
 
-    modalRemoveBtn.on("click", function (e){
-    	  
-  	  var rno = modal.data("rno");
-  	  
-  	  replyService.remove(rno, function(result){
-  	        
-  	      alert(result);
-  	      modal.modal("hide");
-  	      showList(1);
-  	      
-  	  });
-  	  
-  	}); */
 
     modalModBtn.on("click", function(e){
     	  
-   	  var reply = {rno:modal.data("rno"), reply: modalInputReply.val()};
+   	  var originalReplyer = modalInputReplyer.val();
+   	  var reply = {rno:modal.data("rno"), reply: modalInputReply.val(), replyer:originalReplyer};
    	  
+   	 //비 로그인 시
+   	  if(!replyer){
+   		  alert("로그인 후 수정 가능합니다.");
+   		  modal.modal("hide");//팝업창 숨기기.
+   		  return;
+   	  }
+   	  
+   	 console.log("Original Replyer: " + originalReplyer);
+  	  
+  	  //댓글 작성자와 로그인한 유저가 다를 시 
+  	  if(replyer !=originalReplyer){
+  		  alert("자신이 작성한 댓글만 수정 가능합니다.");
+  		  modal.modal("hide");
+  		  return;
+  	  }
+  	  
+  	  
    	  replyService.update(reply, function(result){
    	        
    	    alert(result);
@@ -487,7 +489,28 @@ $(document).ready(function () {
    	  
    	  var rno = modal.data("rno");
    	  
-   	  replyService.remove(rno, function(result){
+   	  console.log("RNO: " + rno);
+   	  console.log("REPLYER: " + replyer);
+   	  
+   	  //비 로그인 시
+   	  if(!replyer){
+   		  alert("로그인 후 삭제가 가능합니다.");
+   		  modal.modal("hide");//팝업창 숨기기.
+   		  return;
+   	  }
+   	  
+   	  var originalReplyer = modalInputReplyer.val();
+   	  
+   	  console.log("Original Replyer: " + originalReplyer);
+   	  
+   	  //댓글 작성자와 로그인한 유저가 다를 시 
+   	  if(replyer !=originalReplyer){
+   		  alert("자신이 작성한 댓글만 삭제가 가능합니다.");
+   		  modal.modal("hide");
+   		  return;
+   	  }
+   	  
+   	  replyService.remove(rno, originalReplyer, function(result){
    	        
    	      alert(result);
    	      modal.modal("hide");
@@ -501,64 +524,6 @@ $(document).ready(function () {
 });
 
 </script>
-
-
-
-<script>
-
-/* console.log("===============");
-console.log("JS TEST");
-
-var bnoValue = '<c:out value="${board.bno}"/>'; */
-
-//for replyService add test
-/* replyService.add(
-    
-    {reply:"JS Test", replyer:"tester", bno:bnoValue}
-    ,
-    function(result){ 
-      alert("RESULT: " + result);
-    }
-); */
-
-
-//reply List Test
-/* replyService.getList({bno:bnoValue, page:1}, function(list){
-    
-	  for(var i = 0,  len = list.length||0; i < len; i++ ){
-	    console.log(list[i]);
-	  }
-});
- */
-
- 
-/*  //17번 댓글 삭제 테스트 
- replyService.remove(17, function(count) {
-
-   console.log(count);
-
-   if (count === "success") {
-     alert("REMOVED");
-   }
- }, function(err) {
-   alert('ERROR...');
- });
- */
- 
-
-//12번 댓글 수정 
-/* replyService.update({
-  rno : 12,
-  bno : bnoValue,
-  reply : "Modified Reply...."
-}, function(result) {
-
-  alert("수정 완료...");
-
-});  
- */
-
-</script>  
 
 
 <script type="text/javascript">

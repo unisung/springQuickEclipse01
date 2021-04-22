@@ -2,6 +2,8 @@
   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <%@include file="../includes/header.jsp"%>
 
 
@@ -66,6 +68,8 @@
       <div class="panel-body">
 
         <form role="form" action="/board/register" method="post">
+          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        
           <div class="form-group">
             <label>Title</label> <input class="form-control" name='title'>
           </div>
@@ -76,7 +80,10 @@
           </div>
 
           <div class="form-group">
-            <label>Writer</label> <input class="form-control" name='writer'>
+            <label>Writer</label> <input class="form-control" name='writer'
+            	 value='<sec:authentication property="principal.username"/>' 
+            	 readonly="readonly" 
+            >
           </div>
           <button type="submit" class="btn btn-default">Submit
             Button</button>
@@ -188,6 +195,11 @@ $(document).ready(function(e){
     return true;
   }
   
+  //_csrf 토큰 추가
+  /// POST, PUT, PATCH, DELETE와 같은 방식 전송시 'X-CSRF-TOKEN' 헤드 추가전송.
+  var csrfHeaderName ="${_csrf.headerName}";
+  var csrfTokenValue="${_csrf.token}";
+  
   $("input[type='file']").change(function(e){
 
     var formData = new FormData();
@@ -210,6 +222,9 @@ $(document).ready(function(e){
       processData: false, 
       contentType: false,
       data: formData,
+      /* ajax 전송시 security 설정 후  아래부분 추가 해야함. */
+      beforeSend:function(xhr){xhr.setRequestHeader(csrfHeaderName,csrfTokenValue)},
+      
       type: 'POST',
       dataType:'json',
         success: function(result){
@@ -295,6 +310,10 @@ $(document).ready(function(e){
     $.ajax({
       url: '/deleteFile',
       data: {fileName: targetFile, type:type},
+      
+      /* ajax 전송시 security 설정 후  아래부분 추가 해야함. */
+      beforeSend:function(xhr){xhr.setRequestHeader(csrfHeaderName,csrfTokenValue)}, 
+      
       dataType:'text',
       type: 'POST',
         success: function(result){

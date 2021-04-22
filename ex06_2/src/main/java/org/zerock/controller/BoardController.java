@@ -107,6 +107,7 @@ public class BoardController {
 	}
 	
 	/* 게시글 수정 처리 */
+	@PreAuthorize("principal.username == #board.writer")
 	@PostMapping("/modify")
 	/*public String modify(BoardVO board, RedirectAttributes rttr, @ModelAttribute("cri") Criteria cri) { */
 	public String modify(BoardVO board, RedirectAttributes rttr, 
@@ -127,8 +128,11 @@ public class BoardController {
 	}
 	
 	/* 게시글 삭제 */
+	//#writer 파라미터 writer값 비교
+	@PreAuthorize("principal.username==#writer")
 	@PostMapping("/remove")
-	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr,  Criteria cri) {
+	public String remove(@RequestParam("bno") Long bno, 
+			                       RedirectAttributes rttr,  Criteria cri, String writer) {
 		log.info("remove...." + bno);
 		
 		//첨부파일리스트 얻기
