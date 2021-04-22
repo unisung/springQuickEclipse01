@@ -47,17 +47,13 @@
    <!-- Mybatis Mapper에 annotation사용을 위해 설정 -->
   <mybatis-spring:scan base-package="org.zerock.mapper"/>
   
-  
-  <context:annotation-config></context:annotation-config>
+
   <!-- service Bean component scan 설정 -->
   <context:component-scan base-package="org.zerock.service"/>  
   <context:component-scan base-package="org.zerock.aop"></context:component-scan>
-  
-  <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
-  
-  
   <context:component-scan base-package="org.zerock.task"></context:component-scan>
   
+  <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
   <!-- spring batch -->
   <task:annotation-driven/>
   
