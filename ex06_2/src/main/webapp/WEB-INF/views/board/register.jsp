@@ -88,6 +88,7 @@
           <button type="submit" class="btn btn-default">Submit
             Button</button>
           <button type="reset" class="btn btn-default">Reset Button</button>
+          <button data-oper='list' class="btn btn-info">List</button>
         </form>
 
       </div>
@@ -133,16 +134,6 @@
 
 $(document).ready(function(e){
 
-	/* 
-  var formObj = $("form[role='form']");
-  
-  $("button[type='submit']").on("click", function(e){
-    
-    e.preventDefault();
-    
-    console.log("submit clicked");
-    
-  }); */
 
   
   var formObj = $("form[role='form']");
@@ -245,27 +236,7 @@ $(document).ready(function(e){
     var str ="";
     
     $(uploadResultArr).each(function(i, obj){
-    
-        /* //image type
-        if(obj.image){
-          var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
-          str += "<li><div>";
-          str += "<span> "+ obj.fileName+"</span>";
-          str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-          str += "<img src='/display?fileName="+fileCallPath+"'>";
-          str += "</div>";
-          str +"</li>";
-        }else{
-          var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);            
-            var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
-              
-          str += "<li><div>";
-          str += "<span> "+ obj.fileName+"</span>";
-          str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-          str += "<img src='/resources/img/attach.png'></a>";
-          str += "</div>";
-          str +"</li>";
-        } */
+  
 		//image type
 		
 		if(obj.image){
@@ -329,6 +300,20 @@ $(document).ready(function(e){
 });
 
 </script>
-
+<script type="text/javascript">
+$(document).ready(function() {
+  
+  var operForm = $("form"); 
+    
+  $("button[data-oper='list']").on("click", function(e){
+    
+    operForm.find("#bno").remove();
+    operForm.attr("action","/board/list");
+    operForm.attr("method","get");
+    operForm.submit();
+    
+  });  
+});
+</script>
 
 <%@include file="../includes/footer.jsp"%>
