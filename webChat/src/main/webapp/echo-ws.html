@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>에코</title>
+<!-- <script src="/resouces/vendor/js/jquery.js"></script> -->
+<script src="https://code.jquery.com/jquery-2.2.1.js"></script>
+<script>
+	$(document).ready(function(){
+		$('#sendBtn').click(function(){sendMessage();});
+	});
+	
+	var wsocket;
+	function sendMessage(){
+		wsocket=new WebSocket("ws://localhost:8282/echo-ws");
+		wsocket.onmessage=onMessage;
+		wsocket.onclose=onClose;
+		wsocket.onopen=function(){//서버에 연결되면
+			wsocket.send($("#message").val());//서버에 메시지 전송	
+		};
+	}
+	
+	function onMessage(e){//서버에서 메세지를 받으면 실행
+		var data = e.data;
+	 alert("서버에서 데이터 받음: "+data);
+	 wsocket.close();//연결 종료
+	}
+	
+	function onClose(e){//연결이 종료되면
+		alert("연결이 종료 됨.");
+	}
+	
+</script>
+</head>
+<body>
+    
+   <input id="message">
+   <input type="button" id="sendBtn" value="전송">
+</body>
+</html>
