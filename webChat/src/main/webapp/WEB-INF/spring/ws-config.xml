@@ -10,9 +10,11 @@
 <!-- 내부적으로 스프링 MVC의  SimpleUrlHandlerMapping -->
   <websocket:handlers>
   		<websocket:mapping handler="echoHandler" path="/echo-ws"/>
+  		<websocket:mapping handler="chatHandler" path="/chat-ws"/>
   </websocket:handlers>
 
   <bean id="echoHandler" class="org.zerock.ws.EchoHandler"/>
+  <bean id="chatHandler" class="org.zerock.ws.ChatWebSocketHandler"/>
   
   <mvc:default-servlet-handler/>
 
